@@ -3,8 +3,8 @@ title: "Mineria de Texto1"
 author: "Sergio Pino Juica"
 date: "20-07-2020"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
   word_document: default
 tm: específico para minería de textos.
 wordcloud: para graficar nubes de palabras.
@@ -82,7 +82,26 @@ nov_corpus <- Corpus(VectorSource(nov_text))
 
 nov_corpus
 
-nov_ptd <- tm_map(nov_corpus, PlainTextDocument)
+wordcloud(nov_corpus, max.words = 80, random.order = F, colors = brewer.pal(name = "Dark2", n = 8))
+
+##nov_ptd <- tm_map(nov_corpus, PlainTextDocument)
+
+
+##wordcloud(nov_ptd, max.words = 80, random.order = F, colors = brewer.pal(name = "Dark2", n = 8))
+
+nov_text <- removeWords(nov_text, words = c("usted", "pues", "tal", "tan", "así", "dijo", "cómo", "sino", "entonces", "aunque", "don", "doña"))
+
+nov_corpus <- nov_text %>% VectorSource() %>% Corpus()
+nov_ptd <- nov_corpus %>% tm_map(PlainTextDocument)
+
+wordcloud(
+  nov_corpus, max.words = 80, 
+  random.order = F, 
+  colors=brewer.pal(name = "Dark2", n = 8)
+  )
+
+
+
 
 
 
