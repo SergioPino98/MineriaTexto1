@@ -2,16 +2,20 @@
 title: "Mineria de Texto1"
 author: "Sergio Pino Juica"
 date: "20-07-2020"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
 tm: específico para minería de textos.
 wordcloud: para graficar nubes de palabras.
 ggplot2: una gramática de gráficas que expande las funciones base de R.
-dplyr: con funciones auxiliares para manipular y transformar datos. En particular, el operador %>% permite escribir funciones más legibles para seres humanos.
+dplyr: con funciones auxiliares para manipular y transformar datos. En particular,
+  el operador %>% permite escribir funciones más legibles para seres humanos.
 readr: facilitará leer y escribir documentos.
-cluster; con funciones para realizar análisis de grupos.
+cluster: con funciones para realizar análisis de grupos.
 ---
 
-```{r setup, include=FALSE}
+```
 getwd()
 library(tm)
 library(SnowballC)
@@ -25,10 +29,12 @@ getwd()
 nov_raw <- read_lines("Niebla.txt", skip = 419, n_max = 8313-419)
 
 str(nov_raw)
-
+class(nov_raw)
 diez <- rep(1:ceiling(length(nov_raw)/10), each = 10)
 
 diez <- diez[1:length(nov_raw)]
+
+diez
 
 nov_text <- cbind(diez, nov_raw) %>% data.frame()
 
@@ -40,6 +46,7 @@ nov_text <- aggregate(formula = nov_raw ~ diez,
 nov_text <- nov_text %>% select(nov_raw) %>% as.matrix
 
 dim(nov_text)
+
 
 
 nov_text <-
@@ -76,22 +83,6 @@ nov_corpus <- Corpus(VectorSource(nov_text))
 nov_corpus
 
 nov_ptd <- tm_map(nov_corpus, PlainTextDocument)
-
-nov_text <- removeWords(nov_text, words = c("usted", "pues", "tal", "tan", "así", "dijo", "cómo", "sino", "entonces", "aunque", "don", "doña"))
-
-nov_corpus <- nov_text %>% VectorSource() %>% Corpus()
-nov_ptd <- nov_corpus %>% tm_map(PlainTextDocument)
-
-
-wordcloud(
-  nov_ptd, max.words = 80, 
-  random.order = F, 
-  colors=brewer.pal(name = "Dark2", n = 8)
-  )
-
-
-
-
 
 
 
