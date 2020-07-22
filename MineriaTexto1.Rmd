@@ -24,12 +24,16 @@ library(ggplot2)
 library(dplyr)
 library(readr)
 library(cluster)
+
+#library("RColorBrewer")
 getwd()
 
-nov_raw <- read_lines("Niebla.txt", skip = 419, n_max = 8313-419)
-
+#nov_raw <- read_lines("Niebla.txt", skip = 419, n_max = 8313-419)
+nov_raw <- read_lines("PLAN.txt")
 str(nov_raw)
 class(nov_raw)
+nov_raw = iconv(nov_raw, to="ASCII//TRANSLIT")
+
 diez <- rep(1:ceiling(length(nov_raw)/10), each = 10)
 
 diez <- diez[1:length(nov_raw)]
@@ -80,11 +84,14 @@ nov_text <- stripWhitespace(nov_text)
 
 nov_corpus <- Corpus(VectorSource(nov_text))
 
+
+
+
 nov_corpus
 
 wordcloud(nov_corpus, max.words = 80, random.order = F, colors = brewer.pal(name = "Dark2", n = 8))
 
-##nov_ptd <- tm_map(nov_corpus, PlainTextDocument)
+nov_ptd <- tm_map(nov_corpus, PlainTextDocument)
 
 
 ##wordcloud(nov_ptd, max.words = 80, random.order = F, colors = brewer.pal(name = "Dark2", n = 8))
